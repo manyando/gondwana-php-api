@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Unit Availability Checker</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+
+<body>
+    <h1>Check Unit Availability</h1>
+
+    <form id="availabilityForm">
+        <label>
+            Arrival Date:
+            <input type="date" name="Arrival" id="arrivalDateInput" required>
+        </label>
+
+        <label>
+            Departure Date:
+            <input type="date" name="Departure" id="departureDateInput" required>
+        </label>
+
+        <label>
+            Unit Name:
+            <select name="UnitName" required>
+                <option value="" disabled selected>-- Select a Unit --</option>
+                <option>Deluxe Suite</option>
+            </select>
+        </label>
+
+        <label>
+            Number of occupants:
+            <input type="number" name="Occupants" min="1" required id="occupantsInput" placeholder="0">
+        </label>
+
+        <div id="agesContainer"></div>
+
+        <button type="submit" id="checkButton">
+            <span id="buttonText">Check Availability</span>
+            <span id="loadingSpinner"></span>
+        </button>
+    </form>
+
+    <pre id="resultBox"></pre>
+
+    <script src="../scripts/script.js"></script>
+</body>
+
+</html>
