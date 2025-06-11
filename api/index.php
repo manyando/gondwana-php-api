@@ -52,7 +52,7 @@ $remoteApiUrl = "https://dev.gondwana-collection.com/Web-Store/Rates/Rates.php";
 $unitTypeIds = [-2147483637, -2147483456];
 $responsePayloads = [];
 
-foreach($unitTypeIds as $unitId) 
+foreach($unitTypeIds as $unitId) {
     $payload = transformPayload($input, $unitId);
     $ch = curl_init($remoteApiUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
