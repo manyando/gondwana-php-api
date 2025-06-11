@@ -2,53 +2,79 @@
 
 function validateInput($data) {
     $errors = [];
-    $requiredFields = ["Arrival", "Departure", "Unit Name", "Ages", "Occupants"];
 
+    $errors = array_merge($errors, validateRequiredFields($data));
+    if (!empty($errors)) {
+        return $errors;
+    }
+
+    $errors = array_merge($errors, validateUnitName($data["Unit Name"]));
+    $errors = array_merge($errors, validateDates($data["Arrival"], $data["Departure"]));
+    $errors = array_merge($errors, validateOccupants($data["Occupants"]));
+    $errors = array_merge($errors, validateAges($data["Ages"], $data["Occupants"]));
+
+    return $errors;
+}
+
+function validateRequiredFields($data) {
+    $errors = [];
+    $requiredFields = ["Arrival", "Departure", "Unit Name", "Ages", "Occupants"];
     foreach ($requiredFields as $field) {
         if (!isset($data[$field]) || $data[$field] === "") {
             $errors[] = "Field '$field' cannot be empty";
         }
     }
+    return $errors;
+}
 
-    if (!empty($errors)) return $errors;
-
-    if (!is_string($data["Unit Name"]) || trim($data["Unit Name"]) === "") {
+function validateUnitName($unitName) {
+    $errors = [];
+    if (!is_string($unitName) || trim($unitName) === "") {
         $errors[] = "Unit Name must be a non-empty string";
     }
+    return $errors;
+}
 
-    $arrival = DateTime::createFromFormat('d/m/Y', $data["Arrival"]);
-    $departure = DateTime::createFromFormat('d/m/Y', $data["Departure"]);
+function validateDates($arrivalStr, $departureStr) {
+    $errors = [];
+    $arrival = DateTime::createFromFormat('d/m/Y', $arrivalStr);
+    $departure = DateTime::createFromFormat('d/m/Y', $departureStr);
 
-    if (!$arrival || $arrival->format('d/m/Y') !== $data["Arrival"]) {
+    if (!$arrival || $arrival->format('d/m/Y') !== $arrivalStr) {
         $errors[] = "Arrival must be a valid date in dd/mm/yyyy format";
     }
-
-    if (!$departure || $departure->format('d/m/Y') !== $data["Departure"]) {
+    if (!$departure || $departure->format('d/m/Y') !== $departureStr) {
         $errors[] = "Departure must be a valid date in dd/mm/yyyy format";
     }
-
     if ($arrival && $departure && $departure <= $arrival) {
         $errors[] = "Departure date must be after Arrival date";
     }
+    return $errors;
+}
 
-    if (!is_int($data["Occupants"]) || $data["Occupants"] < 1) {
+function validateOccupants($occupants) {
+    $errors = [];
+    if (!is_int($occupants) || $occupants < 1) {
         $errors[] = "Occupants must be a positive integer";
     }
+    return $errors;
+}
 
-    if (!is_array($data["Ages"])) {
+function validateAges($ages, $occupants) {
+    $errors = [];
+    if (!is_array($ages)) {
         $errors[] = "Ages must be an array";
-    } else {
-        foreach ($data["Ages"] as $age) {
-            if (!is_int($age) || $age < 0) {
-                $errors[] = "All ages must be positive integers";
-            }
-        }
-
-        if (count($data["Ages"]) !== $data["Occupants"]) {
-            $errors[] = "Number of ages must match number of occupants";
+        return $errors;
+    }
+    foreach ($ages as $age) {
+        if (!is_int($age) || $age < 0) {
+            $errors[] = "All ages must be positive integers";
+            break;
         }
     }
-
+    if (count($ages) !== $occupants) {
+        $errors[] = "Number of ages must match number of occupants";
+    }
     return $errors;
 }
 
