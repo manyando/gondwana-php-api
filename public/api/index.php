@@ -1,5 +1,12 @@
 <?php
 
+require __DIR__ . '/../../vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
+$dotenv->load();
+
+$apiUrl = $_ENV['API_URL'];
+
 header("Content-Type: application/json");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
@@ -51,6 +58,6 @@ if(!$input) {
 $remoteApiUrl = "https://dev.gondwana-collection.com/Web-Store/Rates/Rates.php";
 $unitTypeIds = [-2147483637, -2147483456];
 
-$responsePayloads = sendRateRequests($input, $remoteApiUrl, $unitTypeIds);
+$responsePayloads = sendRateRequests($input, $apiUrl, $unitTypeIds);
 
 echo json_encode($responsePayloads);
