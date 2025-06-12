@@ -54,8 +54,6 @@ if(!$input) {
     exit;
 }
 
-
-$remoteApiUrl = "https://dev.gondwana-collection.com/Web-Store/Rates/Rates.php";
 $unitTypeIds = [-2147483637, -2147483456];
 
 $responsePayloads = sendRateRequests($input, $apiUrl, $unitTypeIds);
