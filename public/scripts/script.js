@@ -79,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     occupantsInput.addEventListener('input', generateAgeInputs);
-
     generateAgeInputs();
 
     availabilityForm.addEventListener('submit', async function (e) {
@@ -91,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (depDate <= arrDate) {
             resultBox.innerHTML = `<div style="color: #d33; font-weight: bold;">Error: Departure Date must be after Arrival Date.</div>`;
             resultBox.style.display = 'block';
+            resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
             return;
         }
 
@@ -123,14 +123,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!Array.isArray(data)) {
                 resultBox.innerHTML = `<div style="color: #d33; font-weight: bold;">⚠️ Unexpected response format. Please try again or contact support.</div>`;
                 resultBox.style.display = 'block';
+                resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 return;
             }
 
             if (data.length === 0) {
                 resultBox.innerHTML = `<div style="color: #0077ff; font-weight: bold;">No units found matching your criteria. Please adjust your dates or unit type and try again.</div>`;
                 resultBox.style.display = 'block';
+                resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 return;
             }
+
+            const resultCount = `<div style="margin-bottom: 1rem; font-weight: bold; font-size: 1.1rem;">🔍 ${data.length} propert${data.length === 1 ? 'y' : 'ies'} found</div>`;
 
             const messagesHtml = data.map(item => {
                 const availabilityColor = item["Availability"] === "Available" ? '#28a745' : '#dc3545';
@@ -142,13 +146,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>`;
             });
 
-            resultBox.innerHTML = messagesHtml.join('');
+            resultBox.innerHTML = resultCount + messagesHtml.join('');
             resultBox.style.display = 'block';
+            resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
         } catch (err) {
             console.error("Fetch error:", err);
             resultBox.innerHTML = `<div style="color: #d33; font-weight: bold;">Could not connect to the booking service. Please check your internet connection or the API path. Error details: ${err.message}.</div>`;
             resultBox.style.display = 'block';
+            resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
         } finally {
             hideLoading();
         }
