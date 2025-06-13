@@ -21,7 +21,13 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html"
-	"postCreateCommand": "php -S 0.0.0.0:8080 -t public"
+	"postCreateCommand": "php -S 0.0.0.0:8080 -t public",
+	"portsAttributes": {
+		"8080": {
+		"label": "PHP Web Server",
+		"onAutoForward": "openBrowser"
+		}
+	}
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
