@@ -90,6 +90,6 @@ function transformPayload($input, $unitTypeId) {
         "Unit Type Id" => $unitTypeId,
         "Arrival" => $arrival->format('Y-m-d'),
         "Departure" => $departure->format('Y-m-d'),
-        "Guest ages" => $guestAges
+        "Guests" => $guestAges
     ];
 }
