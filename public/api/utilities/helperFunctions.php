@@ -87,7 +87,7 @@ function transformPayload($input, $unitTypeId) {
     }, $input["Ages"]);
 
     return [
-        "Unit Type Id" => $unitTypeId,
+        "Unit Type ID" => $unitTypeId,
         "Arrival" => $arrival->format('Y-m-d'),
         "Departure" => $departure->format('Y-m-d'),
         "Guests" => $guestAges
